@@ -31,10 +31,11 @@ Cost and latency measurements
 ├── data/
 │ ├── job_snippets.jsonl # Input job-posting snippets
 │ └── golden_set.jsonl # Ground-truth labels
-├── mp1/
-├── mp1_prompt_lab.ipynb # Interactive notebook
+├── src/
+│ ├── mp1_prompt_lab.ipynb # Interactive notebook
 ├── mp1_comparison.md # Generated comparison report
 ├── mp1_writeup.md # Analysis and reflections
+├── README.md
 ├── requirements.txt
 └── .env # API credentials 
 
@@ -78,7 +79,7 @@ Launch:
 
 VS Code
 
-jupyter notebook mp1/mp1_prompt.ipynb
+jupyter notebook src/mp1_prompt_lab.ipynb
 
 Run the notebook cells in order:
 
