@@ -32,9 +32,7 @@ Cost and latency measurements
 │ ├── job_snippets.jsonl # Input job-posting snippets
 │ └── golden_set.jsonl # Ground-truth labels
 ├── mp1/
-│ ├── mp1_prompt_lab.ipynb # Interactive notebook
-│ ├── mp1_prompt_lab.py # Standalone script
-│ └── prompts.py # Prompt-builder functions
+├── mp1_prompt_lab.ipynb # Interactive notebook
 ├── mp1_comparison.md # Generated comparison report
 ├── mp1_writeup.md # Analysis and reflections
 ├── requirements.txt
@@ -78,9 +76,9 @@ Option A: Jupyter Notebook (Recommended)
 
 Launch:
 
-PowerShell
+VS Code
 
-jupyter notebook src/mp1_prompt_lab.ipynb
+jupyter notebook mp1/mp1_prompt.ipynb
 
 Run the notebook cells in order:
 
@@ -95,20 +93,14 @@ Cell 8: Markdown Export - mp1_comparison.md
 Cell 9: Cost Summary
 
 
-    Option B: Standalone Python Script
-
-Run:
-
-PowerShell > python src/mp1_prompt_lab.py
-
 A GPT-4o judge evaluates extraction quality using the following rubric:
 
-|                  |   Accuracy (mean/3) |   Parse rate |   Judge score (mean/25) |   Total cost ($) |   Latency p50 (s) |
-|:-----------------|--------------------:|-------------:|------------------------:|-----------------:|------------------:|
-| Zero-shot        |                 2.8 |            1 |                    24.2 |            0     |             2.605 |
-| Few-shot         |                 2.9 |            1 |                    25   |            0.001 |             2.502 |
-| Structured       |                 2.9 |            1 |                    25   |            0.001 |             2.68  |
-| Chain-of-thought |                 2.8 |            1 |                    25   |            0.001 |             3.296 |
+	       Accuracy 
+               (mean/3)	Parse rate	Judge score	   Cost ($)	Latency 50 (s)
+Zero-shot	     2.7       1.0	    24.2	    0.000	    2.754
+Few-shot	     2.8       1.0	    24.6	    0.001	    2.331
+Structured	     2.9       1.0	    25.0	    0.001	    2.436
+Chain-of-thought     2.8       1.0          25.0	    0.001	    2.523
 
 > **Accuracy** — mean number of correctly extracted fields out of 3 (company, role, years).
 > **Parse rate** — proportion of responses that parsed cleanly as JSON.
