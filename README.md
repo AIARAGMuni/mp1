@@ -33,6 +33,8 @@ Cost and latency measurements
 │ └── golden_set.jsonl # Ground-truth labels
 ├── src/
 │ ├── mp1_prompt_lab.ipynb # Interactive notebook
+│ ├── mp1_prompt_lab.py # Standalone script
+│ └── prompts.py # Prompt-builder functions
 ├── mp1_comparison.md # Generated comparison report
 ├── mp1_writeup.md # Analysis and reflections
 ├── README.md
@@ -58,7 +60,7 @@ Access to the Vocareum OpenAI-compatible API
 
     Setup Instructions
 1. Open the Project Directory
-PowerShell cd "Week 5_Graded Mini Project_P_Munirathnam"
+PowerShell cd "Week 5_Graded Mini Project_Reddy_Prasad_Nadiveedi"
 
 2. Install Dependencies
 PowerShell pip install -r requirements.txt
@@ -94,14 +96,19 @@ Cell 8: Markdown Export - mp1_comparison.md
 Cell 9: Cost Summary
 
 
+    Option B: Standalone Python Script
+
+Run:
+
+VS Code > python mp1_prompt_lab.py
+
 A GPT-4o judge evaluates extraction quality using the following rubric:
 
-	       Accuracy 
-               (mean/3)	Parse rate	Judge score	   Cost ($)	Latency 50 (s)
-Zero-shot	     2.7       1.0	    24.2	    0.000	    2.754
-Few-shot	     2.8       1.0	    24.6	    0.001	    2.331
-Structured	     2.9       1.0	    25.0	    0.001	    2.436
-Chain-of-thought     2.8       1.0          25.0	    0.001	    2.523
+                  Accuracy (mean/3)  Parse rate  Judge score (mean/25)  Cost ($)  Latency p50 (s)
+Zero-shot                       2.7         1.0                   24.2     0.000            2.022
+Few-shot                        2.9         1.0                   25.0     0.001            1.934
+Structured                      2.9         1.0                   25.0     0.001            1.840
+Chain-of-thought                2.8         1.0                   25.0     0.001            2.447
 
 > **Accuracy** — mean number of correctly extracted fields out of 3 (company, role, years).
 > **Parse rate** — proportion of responses that parsed cleanly as JSON.
@@ -135,7 +142,15 @@ This suggests that explicit reasoning may not provide meaningful benefits for st
 
 Zero-shot prompting performed surprisingly well on clean examples and achieved:
 
-Accuracy = 2.8 / 3
+Accuracy = 2.7 / 3
 Judge Score = 24.2 / 25
 
 Structured Prompting emerged as the most practical strategy for this task due to:
+
+
+Author
+
+P Munirathnam
+ Week 5 Graded Mini Project
+
+📧 Email: ailearner.muni@gmail.com

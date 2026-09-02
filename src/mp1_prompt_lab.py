@@ -1,8 +1,8 @@
-# ── Load .env so OPENAI_API_KEY is available ────────────────────────────────
+# Load .env so OPENAI_API_KEY is available
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Walk up from src/ to find the project-root .env
+# from src/ to find the project-root .env
 _here = Path().resolve()
 _env_path = next(
     (p / '.env' for p in [_here, *_here.parents] if (p / '.env').exists()),
@@ -25,9 +25,6 @@ from openai import AsyncOpenAI
 # Read credentials loaded from .env
 api_key  = os.getenv('OPEN_API_KEY')
 api_base = os.getenv('OPEN_API_BASE')
-
-#assert api_key,  'OPENAI_API_KEY not set — check your .env'
-#assert api_base, 'OPENAI_API_BASE not set — check your .env'
 
 client = AsyncOpenAI(api_key=api_key, base_url=api_base)
 
@@ -299,7 +296,7 @@ print('LLM judge function defined.')
 
 
 async def main():
-    # ── Run all 40 calls (or load from cache) ────────────────────────────────
+    # Run all 40 calls (or load from cache)
     RAW_CACHE = _ROOT / 'results_raw.json'
 
     if RAW_CACHE.exists():
@@ -312,14 +309,14 @@ async def main():
 
     print(f'Got {len(results)} results.')
 
-    # ── Apply scoring to all 40 results ──────────────────────────────────────
+    # Apply scoring to all 40 results 
     SCORED_CACHE = _ROOT / 'results_scored.json'
 
     if SCORED_CACHE.exists():
         print(f'Loading cached scored results from {SCORED_CACHE}')
         scored = json.loads(SCORED_CACHE.read_text(encoding='utf-8'))
     else:
-        # Build snippet text lookup
+        # snippet text lookup
         snippet_lookup = {s['id']: s['snippet'] for s in snippets}
 
         # Step 4a — deterministic scores (no API call)
@@ -328,7 +325,7 @@ async def main():
             row['parse_success'] = row['parsed'] is not None
             row['accuracy']      = score_accuracy(row['parsed'], gold)
 
-        # Step 4b — LLM judge (fire all 40 concurrently)
+        # LLM judge (fire all 40 concurrently)
         print('Running LLM judge on all 40 results …')
         judge_tasks = [
             score_llm_judge(
@@ -364,9 +361,9 @@ async def main():
     summary = summary.reindex([s for s in _order if s in summary.index])
     summary.index = ['Zero-shot', 'Few-shot', 'Structured', 'Chain-of-thought']
     summary.columns = ['Accuracy (mean/3)', 'Parse rate', 'Judge score (mean/25)',
-                       'Total cost ($)', 'Latency p50 (s)']
+                       'Cost ($)', 'Latency p50 (s)']
 
-    # ── Write comparison table to mp1_comparison.md ──────────────────────────
+    # comparison table to mp1_comparison.md 
     COMPARISON_PATH = _ROOT / 'mp1_comparison.md'
 
     md_lines = [
@@ -379,7 +376,7 @@ async def main():
         '> **Accuracy** — mean number of correctly extracted fields out of 3 (company, role, years).',
         '> **Parse rate** — proportion of responses that parsed cleanly as JSON.',
         '> **Judge score** — mean score from `gpt-4o`-as-judge (1–25 rubric).',
-        '> **Total cost** — USD spend for all 10 snippets of that strategy.',
+        '> **Cost** — USD spend for all 10 snippets of that strategy.',
         '> **Latency p50** — median call latency in seconds.',
     ]
 
@@ -388,7 +385,7 @@ async def main():
     print()
     print(summary.to_string())
 
-    # ── Cost summary ─────────────────────────────────────────────────────────
+    # Cost summary
     total_main  = sum(r['cost_usd'] for r in scored)
     n_judge     = len(scored)
     est_judge   = n_judge * (RATES['gpt-4o']['in'] * 300 + RATES['gpt-4o']['out'] * 10)
